@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>課程報名系統</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+TC:wght@400;500;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', 'Noto Sans TC', sans-serif;
+        }
+        .form-input:focus, .form-select:focus, .form-textarea:focus, .form-checkbox:focus, .form-radio:focus {
+            outline: 2px solid transparent;
+            outline-offset: 2px;
+            --tw-ring-color: #3b82f6;
+            box-shadow: 0 0 0 2px var(--tw-ring-color);
+        }
+        .error-message { display: none; color: #ef4444; font-size: 0.875rem; margin-top: 0.25rem; }
+        .is-invalid { border-color: #ef4444; }
+        .is-invalid:focus { --tw-ring-color: #ef4444; }
+        .loader {
+            border: 4px solid #f3f3f3; /* Light grey */
+            border-top: 4px solid #3498db; /* Blue */
+            border-radius: 50%;
+            width: 24px;
+            height: 24px;
+            animation: spin 1s linear infinite;
+            display: none; /* Initially hidden */
+            margin-left: 1rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+
+    <div class="container mx-auto max-w-3xl px-4 py-12 sm:py-16">
+        
+        <header class="text-center mb-10">
+            <h1 class="text-3xl sm:text-4xl font-bold text-gray-800">生涯規劃俱樂部</h1>
+            <p class="mt-3 text-md text-gray-600">感謝您對本課程的興趣！請填寫以下資訊以完成報名。我們期待在課堂上見到您！</p>
+        </header>
+
+        <form id="registrationForm" class="bg-white p-8 sm:p-10 rounded-xl shadow-lg space-y-8" novalidate>
+            <!-- 課程資訊 -->
+            <fieldset class="border-b border-gray-200 pb-8">
+                <legend class="text-xl font-semibold text-gray-900 mb-4">課程資訊</legend>
+                <div class="space-y-3 text-gray-700">
+                    <p><strong>課程主題：</strong> 形象管理班</p>
+                    <p><strong>課程日期：</strong> 2025 年 7 月 24 日 (星期四)，共六週</p>
+                    <p><strong>課程時間：</strong> 晚上 7:00 - 晚上 9:00</p>
+                    <p><strong>課程地點：</strong> 臺北市中山區民生東路一段 43 號</p>
+                    <p><strong>課程費用：</strong> <span class="text-blue-600 font-bold">新台幣 $4,200 元/人</span> (含教材)</p>
+                    
+                    <div class="pt-4">
+                        <p><strong>五堂課綱要：</strong></p>
+                        <ul class="list-disc list-inside mt-2 space-y-2 text-gray-600">
+                            <li><strong>保養攻略 網紅膜法：</strong> 不再盲目跟風！本堂課將揭秘網紅們私藏的保養心法，從肌膚檢測到精準護膚，教你如何運用面膜發揮最大功效，養出人人稱羨、自帶濾鏡的水煮蛋肌。</li>
+                            <li><strong>經絡美容 淨透底妝：</strong> 美，由內而外。本堂課結合東方經絡按摩智慧，學習如何喚醒肌膚的自癒力與光澤。我們將傳授獨家上妝手法，打造服貼、持久、宛如天生的淨透無瑕底妝。</li>
+                            <li><strong>醫美新知 開運好眉：</strong> 掌握美麗的最新科技！為你解析時下最熱門的醫美趨勢與非侵入式美容新知。更將帶你找到專屬的黃金比例，畫出既時尚又能提升運勢、改變氣場的開運眉型。</li>
+                            <li><strong>魔力色彩 魅力眼妝：</strong> 眼睛是靈魂之窗，色彩是它的魔法棒。本堂課將帶你玩轉色彩學，從日常深邃感到派對閃耀妝，學習如何運用眼影、眼線創造層次感，畫出令人過目不忘的魅力電眼。</li>
+                            <li><strong>唇頰妝容 煥髮一新：</strong> 一抹色彩，氣場全開！教你根據膚色與場合，選擇最適合你的命定唇膏與腮紅。學習多種畫法，無論是甜美無辜感或知性氣質風，都能瞬間煥髮一新，提升整體妝容質感。</li>
+                            <li><strong>見證蛻變 完美呈現：</strong> 這是你的畢業展演！整合前五堂課所學，從保養、底妝到色彩，完成一套屬於你自己的完整妝容。在專業指導下，你將自信地展現學習成果，見證自己的美麗蛻變。</li>
+                        </ul>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- 報名者資訊 -->
+            <fieldset class="border-b border-gray-200 pb-8">
+                <legend class="text-xl font-semibold text-gray-900 mb-6">報名者資訊</legend>
+                <div class="grid grid-cols-1 gap-y-6 gap-x-6 sm:grid-cols-2">
+                    <div>
+                        <label for="fullName" class="block text-sm font-medium text-gray-700">姓名 <span class="text-red-500">*</span></label>
+                        <input type="text" name="fullName" id="fullName" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        <p id="fullNameError" class="error-message">請輸入您的姓名</p>
+                    </div>
+                    <div>
+                        <label for="phone" class="block text-sm font-medium text-gray-700">聯絡電話 <span class="text-red-500">*</span></label>
+                        <input type="tel" name="phone" id="phone" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                         <p id="phoneError" class="error-message">請輸入您的聯絡電話</p>
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700">性別 <span class="text-red-500">*</span></label>
+                        <div class="mt-2 flex items-center space-x-6">
+                            <div class="flex items-center">
+                                <input id="genderMale" name="gender" type="radio" value="男" required class="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                <label for="genderMale" class="ml-2 block text-sm text-gray-900">男</label>
+                            </div>
+                            <div class="flex items-center">
+                                <input id="genderFemale" name="gender" type="radio" value="女" class="form-radio h-4 w-4 text-blue-600 border-gray-300 focus:ring-blue-500">
+                                <label for="genderFemale" class="ml-2 block text-sm text-gray-900">女</label>
+                            </div>
+                        </div>
+                        <p id="genderError" class="error-message">請選擇您的性別</p>
+                    </div>
+                    <div>
+                        <label for="age" class="block text-sm font-medium text-gray-700">年齡 <span class="text-red-500">*</span></label>
+                        <input type="text" name="age" id="age" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="請輸入您的年齡">
+                        <p id="ageError" class="error-message">請輸入您的年齡</p>
+                    </div>
+                     <div>
+                        <label for="source" class="block text-sm font-medium text-gray-700">介紹人 <span class="text-red-500">*</span></label>
+                        <input type="text" name="source" id="source" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500">
+                        <p id="sourceError" class="error-message">請輸入介紹人</p>
+                    </div>
+                    <div class="sm:col-span-2">
+                        <label for="email" class="block text-sm font-medium text-gray-700">電子郵件 <span class="text-red-500">*</span></label>
+                        <input type="email" name="email" id="email" required class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="我們將透過此信箱寄送課前通知">
+                        <p id="emailError" class="error-message">請輸入有效的電子郵件地址</p>
+                    </div>
+                </div>
+            </fieldset>
+            
+            <!-- 課程相關問題 -->
+            <fieldset class="border-b border-gray-200 pb-8">
+                <legend class="text-xl font-semibold text-gray-900 mb-4">課程相關問題</legend>
+                <div class="space-y-6">
+                    <div>
+                         <label class="block text-sm font-medium text-gray-700">想報名形象管理班的原因 ? (可複選) <span class="text-red-500">*</span></label>
+                         <div id="learningGoalGroup" class="mt-2 space-y-2">
+                             <div class="flex items-center">
+                                 <input id="goal1" name="learningGoal" type="checkbox" value="喜歡彩妝，想找學習管道" class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                 <label for="goal1" class="ml-3 text-sm text-gray-600">喜歡彩妝，想找學習管道</label>
+                             </div>
+                             <div class="flex items-center">
+                                 <input id="goal2" name="learningGoal" type="checkbox" value="想發展第二專長，增加競爭力" class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                 <label for="goal2" class="ml-3 text-sm text-gray-600">想發展第二專長，增加競爭力</label>
+                             </div>
+                             <div class="flex items-center">
+                                 <input id="goal3" name="learningGoal" type="checkbox" value="想變美變漂亮，讓自己更有自信" class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                 <label for="goal3" class="ml-3 text-sm text-gray-600">想變美變漂亮，讓自己更有自信</label>
+                             </div>
+                             <div class="flex items-center">
+                                 <input id="goal4" name="learningGoal" type="checkbox" value="想找到適合自己的保養方式" class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                 <label for="goal4" class="ml-3 text-sm text-gray-600">想找到適合自己的保養方式</label>
+                             </div>
+                             <div class="flex items-center">
+                                 <input id="goal5" name="learningGoal" type="checkbox" value="想了解形象管理市場，如何變現" class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500">
+                                 <label for="goal5" class="ml-3 text-sm text-gray-600">想了解形象管理市場，如何變現</label>
+                             </div>
+                             <div class="flex items-start">
+                                 <input id="goalOther" name="learningGoal" type="checkbox" value="其他" class="form-checkbox h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500 mt-1">
+                                 <div class="ml-3 w-full">
+                                     <label for="goalOther" class="text-sm text-gray-600">其他</label>
+                                     <input type="text" id="goalOtherText" name="goalOtherText" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 hidden" placeholder="請說明您想學習的內容">
+                                 </div>
+                             </div>
+                         </div>
+                         <p id="learningGoalError" class="error-message">請至少選擇一個項目</p>
+                    </div>
+                </div>
+            </fieldset>
+
+            <!-- 帳務資訊 -->
+            <fieldset>
+                <legend class="text-xl font-semibold text-gray-900 mb-4">帳務資訊</legend>
+                <div class="bg-gray-100 p-4 rounded-lg text-sm text-gray-800 mb-6">
+                    <p><strong>匯款資訊：</strong> 國泰世華銀行 (013) 新板分行</p>
+                    <p><strong>匯款帳號：</strong> 272506-175623</p>
+                     <p><strong>戶名：</strong> 郭玹瓔 (代收)</p>
+                </div>
+                <div>
+                     <label for="paymentInfo" class="block text-sm font-medium text-gray-700">匯款帳號後五碼 <span class="text-red-500">*</span></label>
+                     <input type="text" name="paymentInfo" id="paymentInfo" required maxlength="5" class="form-input mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500" placeholder="為方便對帳，請務必填寫">
+                     <p id="paymentInfoError" class="error-message">請輸入匯款帳號後五碼</p>
+                </div>
+            </fieldset>
+
+            <!-- 提交 -->
+            <div class="pt-5">
+                <button type="submit" id="submitButton" class="w-full flex justify-center items-center py-3 px-4 border border-transparent rounded-md shadow-sm text-lg font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 transition-colors duration-200 disabled:bg-blue-300">
+                    <span id="buttonText">確認送出報名</span>
+                    <div id="buttonLoader" class="loader"></div>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- 成功/失敗提示 Modal -->
+    <div id="responseModal" class="fixed z-10 inset-0 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div id="modalIconContainer" class="mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10">
+                            <!-- Icon will be inserted here by JS -->
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
+                            <h3 class="text-lg leading-6 font-medium text-gray-900" id="modalTitle"></h3>
+                            <div class="mt-2">
+                                <p class="text-sm text-gray-500" id="modalMessage"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" id="closeModal" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-600 text-base font-medium text-white hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        關閉
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // --- 變數定義 ---
+    const form = document.getElementById('registrationForm');
+    const submitButton = document.getElementById('submitButton');
+    const buttonText = document.getElementById('buttonText');
+    const buttonLoader = document.getElementById('buttonLoader');
+    const goalOtherCheckbox = document.getElementById('goalOther');
+    const goalOtherText = document.getElementById('goalOtherText');
+
+    // Google Apps Script 部署後的網址
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzRp0_liDB0frUY5e3p2rB7NQnZ-wJ_IQx-PfGqXCDAgXQHV_tTFAoY1Q8QkzLtzLT8Vg/exec';
+
+    // --- Modal 相關 ---
+    const responseModal = document.getElementById('responseModal');
+    const closeModalButton = document.getElementById('closeModal');
+    const modalIconContainer = document.getElementById('modalIconContainer');
+    const modalTitle = document.getElementById('modalTitle');
+    const modalMessage = document.getElementById('modalMessage');
+    const successIcon = `<svg class="h-6 w-6 text-green-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>`;
+    const errorIcon = `<svg class="h-6 w-6 text-red-600" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>`;
+
+    function showModal(isSuccess, message) {
+        if (isSuccess) {
+            modalIconContainer.innerHTML = successIcon;
+            modalIconContainer.className = 'mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-green-100 sm:mx-0 sm:h-10 sm:w-10';
+            modalTitle.textContent = '報名成功！';
+            modalMessage.textContent = '我們已經收到您的報名資訊。相關的課前通知將在 3 個工作天內寄至您的電子信箱，敬請留意。';
+        } else {
+            modalIconContainer.innerHTML = errorIcon;
+            modalIconContainer.className = 'mx-auto flex-shrink-0 flex items-center justify-center h-12 w-12 rounded-full bg-red-100 sm:mx-0 sm:h-10 sm:w-10';
+            modalTitle.textContent = '報名失敗';
+            modalMessage.textContent = message || '發生未知的錯誤，請稍後再試或直接與我們聯繫。';
+        }
+        responseModal.classList.remove('hidden');
+    }
+
+    // --- 表單驗證邏輯 ---
+    const fieldsToValidate = { 
+        'fullName': 'fullNameError', 
+        'phone': 'phoneError', 
+        'source': 'sourceError',
+        'email': 'emailError', 
+        'age': 'ageError',
+        'paymentInfo': 'paymentInfoError'
+    };
+    function showError(fieldId, errorId) { const field = document.getElementById(fieldId); const error = document.getElementById(errorId); if (field && error) { field.classList.add('is-invalid'); error.style.display = 'block'; } }
+    function hideError(fieldId, errorId) { const field = document.getElementById(fieldId); const error = document.getElementById(errorId); if (field && error) { field.classList.remove('is-invalid'); error.style.display = 'none'; } }
+    function validateEmail(email) { const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/; return re.test(String(email).toLowerCase()); }
+    
+    function validateForm() {
+        let isValid = true;
+        
+        // 重置所有文字輸入欄位的錯誤
+        Object.entries(fieldsToValidate).forEach(([fieldId, errorId]) => hideError(fieldId, errorId));
+        // 重置單選/複選的錯誤
+        ['genderError', 'learningGoalError'].forEach(id => {
+            const errorEl = document.getElementById(id);
+            if (errorEl) errorEl.style.display = 'none';
+        });
+
+        // 驗證文字輸入欄位
+        Object.entries(fieldsToValidate).forEach(([fieldId, errorId]) => {
+            const field = document.getElementById(fieldId);
+            let fieldValid = true;
+            if (!field.value.trim()) fieldValid = false;
+            
+            if (fieldId === 'email' && field.value.trim() && !validateEmail(field.value.trim())) {
+                fieldValid = false;
+            }
+
+            if (!fieldValid) {
+                showError(fieldId, errorId);
+                isValid = false;
+            }
+        });
+
+        // 驗證性別單選按鈕
+        if (!document.querySelector('input[name="gender"]:checked')) {
+            const genderError = document.getElementById('genderError');
+            if (genderError) genderError.style.display = 'block';
+            isValid = false;
+        }
+        
+        // 驗證學習目標複選框
+        if (document.querySelectorAll('input[name="learningGoal"]:checked').length === 0) {
+            const learningGoalError = document.getElementById('learningGoalError');
+            if (learningGoalError) learningGoalError.style.display = 'block';
+            isValid = false;
+        }
+
+        return isValid;
+    }
+
+    // --- 事件監聽 ---
+    closeModalButton.addEventListener('click', () => { responseModal.classList.add('hidden'); });
+    responseModal.addEventListener('click', (event) => { if (event.target === responseModal) responseModal.classList.add('hidden'); });
+    
+    // 監聽 "其他" 選項
+    goalOtherCheckbox.addEventListener('change', function() {
+        if (this.checked) {
+            goalOtherText.classList.remove('hidden');
+        } else {
+            goalOtherText.classList.add('hidden');
+            goalOtherText.value = ''; // 清空內容
+        }
+    });
+
+    // --- 表單提交 ---
+    form.addEventListener('submit', function(event) {
+        event.preventDefault();
+        if (!validateForm()) {
+            console.log('表單驗證失敗');
+            return;
+        }
+
+        if (SCRIPT_URL === 'YOUR_WEB_APP_URL') {
+            showModal(false, '系統設定錯誤：尚未設定後端資料接收網址。');
+            return;
+        }
+
+        submitButton.disabled = true;
+        buttonText.style.display = 'none';
+        buttonLoader.style.display = 'block';
+
+        const formData = new FormData(form);
+        const data = {};
+        for (let [key, value] of formData.entries()) {
+            // 排除空的 goalOtherText
+            if (key !== 'goalOtherText') {
+                data[key] = value;
+            }
+        }
+        
+        // 特別處理可複選的 learningGoal
+        const learningGoals = [];
+        document.querySelectorAll('input[name="learningGoal"]:checked').forEach(checkbox => {
+            if (checkbox.value === '其他') {
+                if (goalOtherText.value.trim()) {
+                    learningGoals.push(`其他: ${goalOtherText.value.trim()}`);
+                }
+            } else {
+                learningGoals.push(checkbox.value);
+            }
+        });
+        data.learningGoal = learningGoals.join(', ');
+
+        fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'cors',
+            cache: 'no-cache',
+            headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+            body: JSON.stringify(data)
+        })
+        .then(res => res.json())
+        .then(response => {
+            if (response.result === 'success') {
+                showModal(true);
+                form.reset();
+                goalOtherText.classList.add('hidden'); // 確保 "其他" 文字框也隱藏
+            } else {
+                throw new Error(response.error || '未知的後端錯誤');
+            }
+        })
+        .catch(error => {
+            console.error('Error!', error);
+            showModal(false, `提交失敗，請檢查您的網路連線或稍後再試。錯誤詳情: ${error.message}`);
+        })
+        .finally(() => {
+            submitButton.disabled = false;
+            buttonText.style.display = 'inline';
+            buttonLoader.style.display = 'none';
+        });
+    });
+});
+</script>
+
+</body>
+</html>
